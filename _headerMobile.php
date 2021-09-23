@@ -41,6 +41,10 @@
                    <a href="./users.php">
                        <i class="fas fa-users"></i>Users</a>                     
                </li>
+               <li>
+                   <a href="./customers.php">
+                       <i class="fas fa-users"></i>Customers</a>                     
+               </li>
            </ul>
        </div>
    </nav>

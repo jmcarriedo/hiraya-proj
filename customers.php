@@ -3,22 +3,23 @@
     require('server.php');
 
     $sort = "ASC";
-    $column = "user_id";
+    $column = "customer_id";
     if(isset($_GET['column']) && isset($_GET['sort'])) {
         $column = $_GET['column'];
         $sort = $_GET['sort'];
         // Descending order
         $sort == "ASC" ? $sort = "DESC" : $sort = "ASC";
     }
-    $query = "SELECT * FROM users ORDER BY $column $sort";
-    $sqlUsers = mysqli_query($connection, $query);
+    $query = "SELECT * FROM customers ORDER BY $column $sort";
+    $sqlCustomers = mysqli_query($connection, $query);
+
 
     if(isset($_POST['delete'])) {
-        $email = $_POST['email'];
-        $query1 = "DELETE FROM users WHERE email='$email'";
+        $user_id = $_POST['user_id'];
+        $query1 = "DELETE FROM users WHERE user_id='$user_id'";
         $sql = mysqli_query($connection, $query1) OR trigger_error('Query failed ' . $query);
         echo "<script> alert('Successfully deleted') </script>";
-        header('location: ./users.php');
+        header('location: ./customers.php');
     }
 ?>
 
@@ -114,48 +115,59 @@
                     <div class="row">
                         <div class="col-md-12">
                             <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-20">All Users</h3>
+                            <h3 class="title-5 m-b-20">All Customers</h3>
                             <div class="table-responsive table-responsive-data2">
                                 <table class="table table-data2">
                                     <thead>
                                         <tr>
-                                            <th><a class="text-dark" href="?column=email&sort=<?php echo $sort ?>"> Email <i class="fas fa-sort"></i></a></th>
-                                            <th><a class="text-dark" href="?column=accessRole&sort=<?php echo $sort ?>"> Access Role <i class="fas fa-sort"></i></a></th>
+                                            <th><a class="text-dark" href="?column=firstName&sort=<?php echo $sort ?>"> first name <i class="fas fa-sort"></i></a></th>
+                                            <th><a class="text-dark" href="?column=middleName&sort=<?php echo $sort ?>"> middle name <i class="fas fa-sort"></i></a></th>
+                                            <th><a class="text-dark" href="?column=lastName&sort=<?php echo $sort ?>"> last name <i class="fas fa-sort"></i></a></th>
+                                            <th><a class="text-dark" href="?column=mobileNum&sort=<?php echo $sort ?>"> mobile number <i class="fas fa-sort"></i></a></th>
+                                            <th><a class="text-dark" href="?column=address&sort=<?php echo $sort ?>"> address <i class="fas fa-sort"></i></a></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php while($row = mysqli_fetch_array($sqlUsers)) { ?>
+                                        <?php while($row = mysqli_fetch_array($sqlCustomers)) { ?>
                                         <tr class="tr-shadow">
                                             <td>
-                                                <span class="block-email"> <?php echo $row['email']; ?> </span>
+                                                <?php echo $row['firstName']; ?>
                                             </td>
-                                            <td class=""> <?php echo $row['accessRole']; ?> </td>
+                                            <td>
+                                                <?php echo $row['middleName']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['lastName']; ?>
+                                            </td>
+                                            <td>
+                                                <span class="block-email"> <?php echo $row['mobileNum']; ?> </span>
+                                            </td>
+                                            <td class=""> <?php echo $row['address']; ?> </td>
                                             <td>
                                                 <div class="table-data-feature">
-                                                    <form class="pe-3" action="userUpdate.php" method="POST">
+                                                    <form class="pe-3" action="customerUpdate.php" method="POST">
                                                         <button name="edit" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
-                                                        <input type="hidden" name="email" value="<?php echo $row['email']; ?>"/>
+                                                        <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>"/>
                                                     </form>
-                                                    <form class="pe-3" action="users.php" method="POST">
+                                                    <form class="pe-3" action="customers.php" method="POST">
                                                         <button name="delete" class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="return (confirm('Are you sure you want to delete?'));">
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </button>
-                                                        <input type="hidden" name="email" value="<?php echo $row['email']; ?>"/>
+                                                        <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>"/>
                                                     </form>
                                                 </div>
                                             </td>
                                         </tr>
                                         <?php } ?>
-                                        
+                                        <tr class="spacer"></tr>
                                     </tbody>
                                 </table>
                             </div>
                             <!-- END DATA TABLE -->
                         </div>
                     </div>
-
                     
                 </div>
             </div>

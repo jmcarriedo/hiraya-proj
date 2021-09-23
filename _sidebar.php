@@ -1,3 +1,15 @@
+<?php 
+    require('session.php');
+
+    if($_SESSION['accessRole'] == 'admin') {
+        $welcome = "Welcome " . $_SESSION['accessRole'] . " " . $_SESSION['email'];
+        $isAdmin = true;
+    } else {
+        $welcome = "Welcome " . $_SESSION['accessRole'];
+        $isAdmin = false;
+    }
+?>
+
 <aside class="menu-sidebar d-none d-lg-block">
    <div class="logo">
        <a href="./dashboard.php">
@@ -34,6 +46,10 @@
                <li>
                    <a href="./users.php">
                        <i class="fas fa-users"></i>Users</a>                     
+               </li>
+               <li>
+                   <a href="./customers.php">
+                       <i class="fas fa-users"></i>Customers</a>                     
                </li>
            </ul>
        </nav>

@@ -2,16 +2,19 @@
     require('session.php');
     require('server.php');
 
-    $sort = "ASC";
-    $column = "user_id";
-    if(isset($_GET['column']) && isset($_GET['sort'])) {
-        $column = $_GET['column'];
-        $sort = $_GET['sort'];
-        // Descending order
-        $sort == "ASC" ? $sort = "DESC" : $sort = "ASC";
+    if(isset($_POST['create'])) {
+        $user_id = $_POST['user_id'];
+        $firstName = $_POST['firstName'];
+        $middleName = $_POST['middleName'];
+        $lastName = $_POST['lastName'];
+        $address = $_POST['address'];
+        $mobileNum = $_POST['mobileNum'];
+
+        $query = "INSERT INTO customers (user_id, firstName, middleName, lastName, address, mobileNum) VALUES('$user_id','$firstName','$middleName','$lastName', '$address', '$mobileNum')";
+        $sql = mysqli_query($connection, $query) OR trigger_error('Query failed ' . $query);
+        echo "<script> alert('Successfully updated') </script>";
+        header('location: ./profile.php');
     }
-    $query = "SELECT * FROM users ORDER BY $column $sort";
-    $sqlUsers = mysqli_query($connection, $query);
 ?>
 
 <!DOCTYPE html>
@@ -105,21 +108,46 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="overview-wrap">
-                                <h2 class="title-1"></h2>
+                            <!-- CUSTOMER PROFILE -->
+                            <h3 class="title-5 m-b-20">Customer Profile</h3>
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">Customer Profile</div>
+                                    <div class="card-body card-block">
+                                        <form action="profile.php" method="POST">
+                                            <div class="input-group">
+                                                <div class="form-group" style="margin-right: 30px;">
+                                                    <label for="firstName" class="form-control-label">First Name</label>
+                                                    <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Enter first name">
+                                                </div>
+                                                <div class="form-group" style="margin-right: 30px;">
+                                                    <label for="middleName" class="form-control-label">Middle Name</label>
+                                                    <input type="text" name="middleName" id="middleName" class="form-control" placeholder="Enter first name">
+                                                </div>
+                                                <div class="form-group" style="margin-right: 30px;">
+                                                    <label for="lastName" class="form-control-label">Last Name</label>
+                                                    <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Enter last name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="address" class="form-control-label">Address</label>
+                                                <input type="text" name="address" id="address" class="form-control"" placeholder="Enter complete address">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="mobileNum" class="form-control-label">Mobile Number</label>
+                                                <input type="text" name="mobileNum" id="mobileNum"  class="form-control" placeholder="Enter valid mobile number">
+                                            </div>                                            
+                                            <div class="form-actions form-group">
+                                                <input type="submit" name="create" class="btn btn-secondary btn-sm" value="Submit"/>
+                                                <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- END CUSTOMER PROFILE -->
                         </div>
-                    </div>
-
-                    <div class="row m-t-25"></div>
-
-                    <!-- PROFILE -->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h2 class="title-1 m-b-25">Customer Profile</h2>
-                            
-                        </div>
-                    </div>
+                    </div>       
                 </div>
             </div>
         </div>

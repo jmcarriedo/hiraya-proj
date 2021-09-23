@@ -1,24 +1,26 @@
 <?php
-    require('session.php');
     require('server.php');
+    require('session.php');
 
-    $sort = "ASC";
-    $column = "user_id";
-    if(isset($_GET['column']) && isset($_GET['sort'])) {
-        $column = $_GET['column'];
-        $sort = $_GET['sort'];
-        // Descending order
-        $sort == "ASC" ? $sort = "DESC" : $sort = "ASC";
+    if(isset($_POST['edit'])) {
+        $user_id= $_POST['user_id'];
+        $query = "SELECT * FROM customers WHERE user_id='$user_id'";
+        $sql = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($sql);
     }
-    $query = "SELECT * FROM users ORDER BY $column $sort";
-    $sqlUsers = mysqli_query($connection, $query);
 
-    if(isset($_POST['delete'])) {
-        $email = $_POST['email'];
-        $query1 = "DELETE FROM users WHERE email='$email'";
-        $sql = mysqli_query($connection, $query1) OR trigger_error('Query failed ' . $query);
-        echo "<script> alert('Successfully deleted') </script>";
-        header('location: ./users.php');
+    if(isset($_POST['update'])) {
+        $user_id = $_POST['user_id'];
+        $firstName = $_POST['firstName'];
+        $middleName = $_POST['middleName'];
+        $lastName = $_POST['lastName'];
+        $address = $_POST['address'];
+        $mobileNum = $_POST['mobileNum'];
+
+        $query2 = "UPDATE customers SET firstName='$firstName', middleName='$middleName', lastName='$lastName', address='$address', mobileNum='$mobileNum' WHERE user_id='$user_id'";
+        $sql2 = mysqli_query($connection, $query2) OR trigger_error('Query failed ' . $query2);
+        echo "<script> alert('Successfully updated') </script>";
+        header('location: ./customers.php');
     }
 ?>
 
@@ -113,50 +115,46 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
-                            <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-20">All Users</h3>
-                            <div class="table-responsive table-responsive-data2">
-                                <table class="table table-data2">
-                                    <thead>
-                                        <tr>
-                                            <th><a class="text-dark" href="?column=email&sort=<?php echo $sort ?>"> Email <i class="fas fa-sort"></i></a></th>
-                                            <th><a class="text-dark" href="?column=accessRole&sort=<?php echo $sort ?>"> Access Role <i class="fas fa-sort"></i></a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php while($row = mysqli_fetch_array($sqlUsers)) { ?>
-                                        <tr class="tr-shadow">
-                                            <td>
-                                                <span class="block-email"> <?php echo $row['email']; ?> </span>
-                                            </td>
-                                            <td class=""> <?php echo $row['accessRole']; ?> </td>
-                                            <td>
-                                                <div class="table-data-feature">
-                                                    <form class="pe-3" action="userUpdate.php" method="POST">
-                                                        <button name="edit" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <input type="hidden" name="email" value="<?php echo $row['email']; ?>"/>
-                                                    </form>
-                                                    <form class="pe-3" action="users.php" method="POST">
-                                                        <button name="delete" class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="return (confirm('Are you sure you want to delete?'));">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <input type="hidden" name="email" value="<?php echo $row['email']; ?>"/>
-                                                    </form>
+                            <!-- EDIT CUSTOMER -->
+                            <h3 class="title-5 m-b-20">Edit Customer</h3>
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">Edit User</div>
+                                    <div class="card-body card-block">
+                                        <form action="customerUpdate.php" method="POST">
+                                            <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>"/>
+                                            <div class="input-group">
+                                                <div class="form-group" style="margin-right: 30px;">
+                                                    <label for="firstName" class="form-control-label">First Name</label>
+                                                    <input type="text" name="firstName" id="firstName" class="form-control" value="<?php echo $row['firstName']; ?>">
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        <?php } ?>
-                                        
-                                    </tbody>
-                                </table>
+                                                <div class="form-group" style="margin-right: 30px;">
+                                                    <label for="middleName" class="form-control-label">Middle Name</label>
+                                                    <input type="text" name="middleName" id="middleName" class="form-control" value="<?php echo $row['middleName']; ?>">
+                                                </div>
+                                                <div class="form-group" style="margin-right: 30px;">
+                                                    <label for="lastName" class="form-control-label">Last Name</label>
+                                                    <input type="text" name="lastName" id="lastName" class="form-control" value="<?php echo $row['lastName']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="address" class="form-control-label">Address</label>
+                                                <input type="text" name="address" id="address" class="form-control"" value="<?php echo $row['address']; ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="mobileNum" class="form-control-label">Mobile Number</label>
+                                                <input type="text" name="mobileNum" id="mobileNum"  class="form-control" value="<?php echo $row['mobileNum']; ?>">
+                                            </div>                                            
+                                            <div class="form-actions form-group">
+                                                <input type="submit" name="update" class="btn btn-secondary btn-sm" value="Submit"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- END DATA TABLE -->
+                            <!-- END EDIT CUSTOMER -->
                         </div>
-                    </div>
-
-                    
+                    </div>       
                 </div>
             </div>
         </div>

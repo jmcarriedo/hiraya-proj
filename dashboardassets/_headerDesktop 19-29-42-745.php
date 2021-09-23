@@ -40,7 +40,7 @@
                                             <i class="zmdi zmdi-account"></i>Profile</a>
                                     </div>
                                     <div class="account-dropdown__item">
-                                        <a href="./settings.php">
+                                        <a href="#">
                                             <i class="zmdi zmdi-settings"></i>Settings</a>
                                     </div>
                                 </div>

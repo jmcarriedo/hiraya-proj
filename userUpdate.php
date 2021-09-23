@@ -1,23 +1,20 @@
 <?php
-    require('session.php');
     require('server.php');
+    require('session.php');
 
-    $sort = "ASC";
-    $column = "user_id";
-    if(isset($_GET['column']) && isset($_GET['sort'])) {
-        $column = $_GET['column'];
-        $sort = $_GET['sort'];
-        // Descending order
-        $sort == "ASC" ? $sort = "DESC" : $sort = "ASC";
-    }
-    $query = "SELECT * FROM users ORDER BY $column $sort";
-    $sqlUsers = mysqli_query($connection, $query);
-
-    if(isset($_POST['delete'])) {
+    if(isset($_POST['edit'])) {
         $email = $_POST['email'];
-        $query1 = "DELETE FROM users WHERE email='$email'";
-        $sql = mysqli_query($connection, $query1) OR trigger_error('Query failed ' . $query);
-        echo "<script> alert('Successfully deleted') </script>";
+        $query = "SELECT * FROM users WHERE email='$email'";
+        $sql = mysqli_query($connection, $query);
+        $row = mysqli_fetch_assoc($sql);
+    }
+    if(isset($_POST['update'])) {
+        $email = $_POST['email'];
+        $accessRole = $_POST['accessRole'];
+
+        $query2 = "UPDATE users SET email='$email', accessRole='$accessRole' WHERE email='$email'";
+        $sql2 = mysqli_query($connection, $query2) OR trigger_error('Query failed ' . $query2);
+        echo "<script> alert('Successfully updated') </script>";
         header('location: ./users.php');
     }
 ?>
@@ -113,50 +110,43 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
-                            <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-20">All Users</h3>
-                            <div class="table-responsive table-responsive-data2">
-                                <table class="table table-data2">
-                                    <thead>
-                                        <tr>
-                                            <th><a class="text-dark" href="?column=email&sort=<?php echo $sort ?>"> Email <i class="fas fa-sort"></i></a></th>
-                                            <th><a class="text-dark" href="?column=accessRole&sort=<?php echo $sort ?>"> Access Role <i class="fas fa-sort"></i></a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php while($row = mysqli_fetch_array($sqlUsers)) { ?>
-                                        <tr class="tr-shadow">
-                                            <td>
-                                                <span class="block-email"> <?php echo $row['email']; ?> </span>
-                                            </td>
-                                            <td class=""> <?php echo $row['accessRole']; ?> </td>
-                                            <td>
-                                                <div class="table-data-feature">
-                                                    <form class="pe-3" action="userUpdate.php" method="POST">
-                                                        <button name="edit" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <input type="hidden" name="email" value="<?php echo $row['email']; ?>"/>
-                                                    </form>
-                                                    <form class="pe-3" action="users.php" method="POST">
-                                                        <button name="delete" class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="return (confirm('Are you sure you want to delete?'));">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <input type="hidden" name="email" value="<?php echo $row['email']; ?>"/>
-                                                    </form>
+                            <!-- EDIT USER -->
+                            <h3 class="title-5 m-b-20">Edit User</h3>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">Edit User</div>
+                                    <div class="card-body card-block">
+                                        <form action="userUpdate.php" method="POST">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-envelope"></i>
+                                                    </div>
+                                                    <input type="email" id="email" name="email" class="form-control" value="<?php echo $row['email']; ?>" readonly="readonly">
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        <?php } ?>
-                                        
-                                    </tbody>
-                                </table>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-user"></i>
+                                                    </div>
+                                                    <select name="accessRole" class="form-control">
+                                                        <option value="">Choose role...</option>
+                                                        <option value="admin" <?php echo ($row['accessRole']==='admin' ? 'selected' : ''); ?>>Admin</option>
+                                                        <option value="guest" <?php echo ($row['accessRole']==='guest' ? 'selected' : ''); ?>>Guest</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions form-group">
+                                                <input type="submit" name="update" class="btn btn-secondary btn-sm" value="Submit"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- END DATA TABLE -->
+                            <!-- END EDIT USER -->
                         </div>
                     </div>
-
-                    
                 </div>
             </div>
         </div>
