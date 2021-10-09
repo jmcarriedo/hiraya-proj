@@ -20,6 +20,16 @@
         echo "<script> alert('Successfully deleted') </script>";
         header('location: ./users.php');
     }
+
+    if(isset($_POST['update'])) {
+        $email = $_POST['email'];
+        $accessRole = $_POST['accessRole'];
+
+        $query2 = "UPDATE users SET email='$email', accessRole='$accessRole' WHERE email='$email'";
+        $sql2 = mysqli_query($connection, $query2) OR trigger_error('Query failed ' . $query2);
+        echo "<script> alert('Successfully updated') </script>";
+        header('location: ./users.php');
+    }
 ?>
 
 <!DOCTYPE html>
@@ -28,12 +38,9 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <!-- <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template"> -->
 
     <!-- Title Page-->
-    <title>Admin Dashboard</title>
+    <title>Dashboard</title>
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -55,39 +62,7 @@
 
     <!-- Main CSS-->
     <link href="dashboardassets/css/theme.css" rel="stylesheet" media="all">
-
-    <!-- Start of Async Drift Code -->
-    <script>
-        "use strict";
-
-        ! function() {
-            var t = window.driftt = window.drift = window.driftt || [];
-            if (!t.init) {
-                if (t.invoked) return void(window.console && console.error && console.error("Drift snippet included twice."));
-                t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
-                    t.factory = function(e) {
-                        return function() {
-                            var n = Array.prototype.slice.call(arguments);
-                            return n.unshift(e), t.push(n), t;
-                        };
-                    }, t.methods.forEach(function(e) {
-                        t[e] = t.factory(e);
-                    }), t.load = function(t) {
-                        var e = 3e5,
-                            n = Math.ceil(new Date() / e) * e,
-                            o = document.createElement("script");
-                        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
-                        var i = document.getElementsByTagName("script")[0];
-                        i.parentNode.insertBefore(o, i);
-                    };
-            }
-        }();
-        drift.SNIPPET_VERSION = '0.3.1';
-        drift.load('mf8ww89upe9t');
-    </script>
-    <!-- End of Async Drift Code -->
-
-    <script src="https://meet.jit.si/external_api.js"></script>
+    
     </style>
 </head>
 
@@ -114,25 +89,28 @@
                     <div class="row">
                         <div class="col-md-12">
                             <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-20">All Users</h3>
-                            <div class="table-responsive table-responsive-data2">
+                            <div class="user-data table-responsive table-responsive-data2">
+                                <h3 class="title-3 m-b-30">
+                                            <i class="zmdi zmdi-account-calendar"></i>user data</h3>
                                 <table class="table table-data2">
                                     <thead>
                                         <tr>
                                             <th><a class="text-dark" href="?column=email&sort=<?php echo $sort ?>"> Email <i class="fas fa-sort"></i></a></th>
                                             <th><a class="text-dark" href="?column=accessRole&sort=<?php echo $sort ?>"> Access Role <i class="fas fa-sort"></i></a></th>
+                                            <th><a class="text-dark" href="?column=accessRole&sort=<?php echo $sort ?>"> Date Joined <i class="fas fa-sort"></i></a></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php while($row = mysqli_fetch_array($sqlUsers)) { ?>
-                                        <tr class="tr-shadow">
+                                        <tr class="border">
                                             <td>
                                                 <span class="block-email"> <?php echo $row['email']; ?> </span>
                                             </td>
                                             <td class=""> <?php echo $row['accessRole']; ?> </td>
+                                            <td class=""> <?php echo $row['date_created']; ?> </td>
                                             <td>
                                                 <div class="table-data-feature">
-                                                    <form class="pe-3" action="userUpdate.php" method="POST">
+                                                    <form class="pe-3" action=" user-update.php" method="POST">
                                                         <button name="edit" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
@@ -148,7 +126,6 @@
                                             </td>
                                         </tr>
                                         <?php } ?>
-                                        
                                     </tbody>
                                 </table>
                             </div>

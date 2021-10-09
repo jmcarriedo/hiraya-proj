@@ -19,10 +19,7 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template">
-
+    
     <!-- Title Page-->
     <title>Login</title>
 
@@ -46,6 +43,11 @@
             <div class="container">
                 <div class="login-wrap">
                     <div class="login-content">
+                        <div class="login-logo">
+                            <a href="#">
+                                <img src="/assets/img/logo round.png" width="40%" alt="Hiraya">
+                            </a>
+                        </div>
                         <div class="title-1 text-center m-b-50">
                             REGISTER
                         </div>
@@ -67,7 +69,7 @@
                                         <a href="#">Forgotten Password?</a>
                                     </label>
                                 </div> -->
-                                <input type="submit" name="register" value="Register" class="au-btn au-btn--block au-btn--green m-b-20" />
+                                <input type="submit" name="register" value="Register" class="au-btn au-btn--block au-btn--blue2 m-b-20" />
                                 <!-- <div class="social-login-content">
                                     <div class="social-button">
                                         <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
@@ -78,7 +80,7 @@
                             <div class="register-link">
                                 <p>
                                     Already have an account?
-                                    <a href="./login.php">Log In Here</a>
+                                    <a href="./login.php" class="text-info">Log In Here</a>
                                 </p>
                             </div>
                         </div>

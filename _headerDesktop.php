@@ -15,7 +15,7 @@
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">
                             <div class="image">
-                                <img src="dashboardassets/images/icon/avatar-01.jpg" alt="John Doe" />
+                                <img src="assets/img/logo round.png" alt="HIRAYA" />
                             </div>
                             <div class="content">
                                 <a><?php echo $_SESSION['accessRole']; ?></a>
@@ -24,7 +24,7 @@
                                 <div class="info clearfix">
                                     <div class="image">
                                         <a>
-                                            <img src="dashboardassets/images/icon/avatar-01.jpg" alt="John Doe" />
+                                            <img src="assets/img/logo v4.png" alt="HIRAYA" />
                                         </a>
                                     </div>
                                     <div class="content">

@@ -13,12 +13,25 @@
     $query = "SELECT * FROM customers ORDER BY $column $sort";
     $sqlCustomers = mysqli_query($connection, $query);
 
-
     if(isset($_POST['delete'])) {
         $user_id = $_POST['user_id'];
         $query1 = "DELETE FROM users WHERE user_id='$user_id'";
         $sql = mysqli_query($connection, $query1) OR trigger_error('Query failed ' . $query);
         echo "<script> alert('Successfully deleted') </script>";
+        header('location: ./customers.php');
+    }
+
+    if(isset($_POST['update'])) {
+        $user_id = $_POST['user_id'];
+        $firstName = $_POST['firstName'];
+        $middleName = $_POST['middleName'];
+        $lastName = $_POST['lastName'];
+        $address = $_POST['address'];
+        $mobileNum = $_POST['mobileNum'];
+
+        $query2 = "UPDATE customers SET firstName='$firstName', middleName='$middleName', lastName='$lastName', address='$address', mobileNum='$mobileNum' WHERE user_id='$user_id'";
+        $sql2 = mysqli_query($connection, $query2) OR trigger_error('Query failed ' . $query2);
+        echo "<script> alert('Successfully updated') </script>";
         header('location: ./customers.php');
     }
 ?>
@@ -29,9 +42,6 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <!-- <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template"> -->
 
     <!-- Title Page-->
     <title>Admin Dashboard</title>
@@ -57,38 +67,6 @@
     <!-- Main CSS-->
     <link href="dashboardassets/css/theme.css" rel="stylesheet" media="all">
 
-    <!-- Start of Async Drift Code -->
-    <script>
-        "use strict";
-
-        ! function() {
-            var t = window.driftt = window.drift = window.driftt || [];
-            if (!t.init) {
-                if (t.invoked) return void(window.console && console.error && console.error("Drift snippet included twice."));
-                t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
-                    t.factory = function(e) {
-                        return function() {
-                            var n = Array.prototype.slice.call(arguments);
-                            return n.unshift(e), t.push(n), t;
-                        };
-                    }, t.methods.forEach(function(e) {
-                        t[e] = t.factory(e);
-                    }), t.load = function(t) {
-                        var e = 3e5,
-                            n = Math.ceil(new Date() / e) * e,
-                            o = document.createElement("script");
-                        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
-                        var i = document.getElementsByTagName("script")[0];
-                        i.parentNode.insertBefore(o, i);
-                    };
-            }
-        }();
-        drift.SNIPPET_VERSION = '0.3.1';
-        drift.load('mf8ww89upe9t');
-    </script>
-    <!-- End of Async Drift Code -->
-
-    <script src="https://meet.jit.si/external_api.js"></script>
     </style>
 </head>
 
@@ -115,10 +93,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-20">All Customers</h3>
-                            <div class="table-responsive table-responsive-data2">
+                            <div class="user-data table-responsive table-responsive-data2">
+                                <h3 class="title-3 m-b-30">
+                                    <i class="zmdi zmdi-account-calendar"></i>customer data</h3>
                                 <table class="table table-data2">
-                                    <thead>
+                                    <thead class="text-center">
                                         <tr>
                                             <th><a class="text-dark" href="?column=firstName&sort=<?php echo $sort ?>"> first name <i class="fas fa-sort"></i></a></th>
                                             <th><a class="text-dark" href="?column=middleName&sort=<?php echo $sort ?>"> middle name <i class="fas fa-sort"></i></a></th>
@@ -129,7 +108,7 @@
                                     </thead>
                                     <tbody>
                                         <?php while($row = mysqli_fetch_array($sqlCustomers)) { ?>
-                                        <tr class="tr-shadow">
+                                        <tr class="border text-center">
                                             <td>
                                                 <?php echo $row['firstName']; ?>
                                             </td>
@@ -145,7 +124,7 @@
                                             <td class=""> <?php echo $row['address']; ?> </td>
                                             <td>
                                                 <div class="table-data-feature">
-                                                    <form class="pe-3" action="customerUpdate.php" method="POST">
+                                                    <form class="pe-3" action="customer-update.php" method="POST">
                                                         <button name="edit" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
@@ -161,7 +140,6 @@
                                             </td>
                                         </tr>
                                         <?php } ?>
-                                        <tr class="spacer"></tr>
                                     </tbody>
                                 </table>
                             </div>

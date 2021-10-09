@@ -19,9 +19,6 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <!-- <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template"> -->
 
     <!-- Title Page-->
     <title>Admin Dashboard</title>
@@ -128,7 +125,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-actions form-group">
-                                                <input type="submit" name="update" class="btn btn-secondary btn-sm" value="Submit"/>
+                                                <input type="submit" name="update" class="btn btn-primary btn-sm" value="Submit"/>
                                             </div>
                                         </form>
                                     </div>

@@ -1,17 +1,12 @@
 <?php
     require('session.php');
-    require('server.php');
-
-    $sort = "ASC";
-    $column = "user_id";
-    if(isset($_GET['column']) && isset($_GET['sort'])) {
-        $column = $_GET['column'];
-        $sort = $_GET['sort'];
-        // Descending order
-        $sort == "ASC" ? $sort = "DESC" : $sort = "ASC";
+    if($_SESSION['accessRole'] == 'admin') {
+        $welcome = "Welcome " . $_SESSION['accessRole'];
+        $isAdmin = true;
+    } else {
+        $welcome = "Welcome " . $_SESSION['accessRole'];
+        $isAdmin = false;
     }
-    $query = "SELECT * FROM users ORDER BY $column $sort";
-    $sqlUsers = mysqli_query($connection, $query);
 ?>
 
 <!DOCTYPE html>
@@ -20,12 +15,9 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <!-- <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template"> -->
 
     <!-- Title Page-->
-    <title>Admin Dashboard</title>
+    <title>Dashboard</title>
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -35,6 +27,7 @@
 
     <!-- Bootstrap CSS-->
     <link href="dashboardassets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- Vendor CSS-->
     <link href="dashboardassets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
@@ -94,38 +87,24 @@
         <!-- END MENU SIDEBAR-->
 
         <!-- PAGE CONTAINER-->
-        <div class="page-container">
+        
         <!-- HEADER DESKTOP-->
         <?php include '_headerDesktop.php'; ?>
         <!-- HEADER DESKTOP-->
 
         <!-- MAIN CONTENT-->
-        <div class="main-content">
-            <div class="section__content section__content--p30">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="overview-wrap">
-                                <h2 class="title-1"></h2>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row m-t-25"></div>
-
-                    <!-- Gallery -->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h2 class="title-1 m-b-25">Gallery</h2>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php 
+        if($isAdmin) {
+            include '_galleryadmin.php'; 
+        } else {
+            include '_galleryuser.php';
+        }
+        ?>
+        
         <!-- END MAIN CONTENT-->
         <!-- END PAGE CONTAINER-->
-        </div>
+        
     </div>
 
     <!-- Jquery JS-->

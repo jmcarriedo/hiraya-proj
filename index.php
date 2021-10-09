@@ -277,7 +277,7 @@
           <div class="quote">
             <p class="my-3"><i>We make it easy for you to book our services.</i></p>
             <p><i>Sign up. Access your account. In a few clicks, you can book and schedule your event.</i></p>
-            <button class="mt-5 button" onCLick="window.location.href='./admin/register.php'">Sign Up</button>
+            <button class="mt-5 button" onCLick="window.location.href='./register.php'">Sign Up</button>
           </div>
         </div>
       </div>
@@ -457,7 +457,7 @@
             </div>
           </div>
           <div class="col-lg-5 col-md-12">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form action="contact.php" method="POST" class="form">
               <div class="form-group">
                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
               </div>
@@ -471,21 +471,17 @@
                 <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
               </div>
               <div class="my-3">
-                <div class="loading">Loading</div>
+                <!-- <div class="loading">Loading</div>
                 <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
+                <div class="sent-message">Your message has been sent. Thank you!</div> -->
               </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+              <div class="text-center"><input type="submit" name="contact" class="btn btn-dark" value="Send Message"></input></div>
             </form>
           </div>
         </div>
       </div>
     </section><!-- End Contact Section -->
   </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <?php include 'footer.php'; ?>
-  <!-- End  Footer -->
 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

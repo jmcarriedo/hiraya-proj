@@ -1,3 +1,12 @@
+<?php
+    if($_SESSION['accessRole'] == 'admin') {
+        $welcome = "Welcome " . $_SESSION['accessRole'];
+        $isAdmin = true;
+    } else {
+        $welcome = "Welcome " . $_SESSION['accessRole'];
+        $isAdmin = false;
+    }
+?>
 <header class="header-mobile d-block d-lg-none">
    <div class="header-mobile__bar">
        <div class="container-fluid">
@@ -31,11 +40,16 @@
                </li>
                <li>
                    <a href="./gallery.php">
-                   <i class="fas fa-camera-retro"></i>Galleries</a>
+                   <i class="fas fa-camera-retro"></i>My Gallery</a>
                </li>  
                <li>
+                    <a href="./packages.php">
+                        <i class="zmdi zmdi-picture-in-picture"></i>Packages</a>                     
+                </li> 
+               <?php if($isAdmin) { ?>
+               <li>
                    <a href="./calendar.php">
-                       <i class="fas fa-users"></i>Calendar</a>                     
+                       <i class="fas fa-calendar-alt"></i>Calendar</a>                     
                </li>
                <li>
                    <a href="./users.php">
@@ -45,6 +59,15 @@
                    <a href="./customers.php">
                        <i class="fas fa-users"></i>Customers</a>                     
                </li>
+               <li>
+                   <a href="./upload.php">
+                       <i class="fas fa-arrow-circle-up"></i>Upload Gallery</a>                     
+               </li>
+               <li>
+                    <a href="./contact-forms.php">
+                        <i class="zmdi zmdi-email-open"></i>Contact Forms</a>                     
+               </li>
+               <?php ;} ?>
            </ul>
        </div>
    </nav>

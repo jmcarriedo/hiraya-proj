@@ -15,6 +15,12 @@
         echo "<script> alert('Successfully updated') </script>";
         header('location: ./profile.php');
     }
+
+    $user_id = $_SESSION['user_id'];
+    $query1 = "SELECT * from customers WHERE user_id=$user_id";
+    $sql1 = mysqli_query($connection, $query1);
+    $row = mysqli_fetch_assoc($sql1);
+
 ?>
 
 <!DOCTYPE html>
@@ -23,9 +29,6 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <!-- <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template"> -->
 
     <!-- Title Page-->
     <title>Admin Dashboard</title>
@@ -108,43 +111,95 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
+                            <?php if($_SESSION['user_id'] == $row['user_id']) { ?>
+                                <!-- CUSTOMER PROFILE -->
+                                <!-- <h3 class="title-5 m-b-20">Customer Profile</h3> -->
+                                <div class="col-lg-10">
+                                    <div class="card bg-dark text-white">
+                                        <form action="profile-update.php" method="POST">
+                                        <div class="card-header" style="display: flex; justify-content: space-between;">
+                                            <div>
+                                                <strong style="font-size:20px;">My Profile</strong> 
+                                                <p class="m-t-10" style="font-size:14px;">Please see details of your profile.</p>
+                                            </div>
+                                            <div>
+                                                <button name="edit" type="submit" class="item text-white" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body card-block">
+                                                <div class="input-group">
+                                                    <div class="form-group" style="margin-right: 30px;">
+                                                        <label for="firstName" class="form-control-label">First Name</label>
+                                                        <input type="text" name="firstName" id="firstName" class="form-control" value="<?php echo $row['firstName']; ?>" readonly>
+                                                    </div>
+                                                    <div class="form-group" style="margin-right: 30px;">
+                                                        <label for="middleName" class="form-control-label">Middle Name</label>
+                                                        <input type="text" name="middleName" id="middleName" class="form-control" value="<?php echo $row['middleName']; ?>" readonly>
+                                                    </div>
+                                                    <div class="form-group" style="margin-right: 30px;">
+                                                        <label for="lastName" class="form-control-label">Last Name</label>
+                                                        <input type="text" name="lastName" id="lastName" class="form-control" value="<?php echo $row['lastName']; ?>" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="address" class="form-control-label">Address</label>
+                                                    <input type="text" name="address" id="address" class="form-control"" value="<?php echo $row['address']; ?>" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="mobileNum" class="form-control-label">Mobile Number</label>
+                                                    <input type="text" name="mobileNum" id="mobileNum"  class="form-control" value="<?php echo $row['mobileNum']; ?>" readonly>
+                                                </div>                                            
+                                                <div class="form-actions form-group">
+                                                    <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>"/>
+                                                    <!-- <input type="submit" name="update" class="btn btn-secondary btn-sm" value="Update" onclick="return confirm('Are you sure you want to update?')"/> -->
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } else {?>
                             <!-- CUSTOMER PROFILE -->
-                            <h3 class="title-5 m-b-20">Customer Profile</h3>
-                            <div class="col-lg-12">
+                            <div class="col-lg-10">
                                 <div class="card">
-                                    <div class="card-header">Customer Profile</div>
+                                    <div class="card-header bg-info text-white">
+                                        <strong style="font-size:20px;">Create Profile</strong> 
+                                        <p class="m-t-10" style="font-size:14px;">In order to proceed, please complete your profile first.</p>
+                                    </div>
                                     <div class="card-body card-block">
                                         <form action="profile.php" method="POST">
                                             <div class="input-group">
                                                 <div class="form-group" style="margin-right: 30px;">
                                                     <label for="firstName" class="form-control-label">First Name</label>
-                                                    <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Enter first name">
+                                                    <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Enter first name" required>
                                                 </div>
                                                 <div class="form-group" style="margin-right: 30px;">
                                                     <label for="middleName" class="form-control-label">Middle Name</label>
-                                                    <input type="text" name="middleName" id="middleName" class="form-control" placeholder="Enter first name">
+                                                    <input type="text" name="middleName" id="middleName" class="form-control" placeholder="Enter first name" required>
                                                 </div>
                                                 <div class="form-group" style="margin-right: 30px;">
                                                     <label for="lastName" class="form-control-label">Last Name</label>
-                                                    <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Enter last name">
+                                                    <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Enter last name" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="address" class="form-control-label">Address</label>
-                                                <input type="text" name="address" id="address" class="form-control"" placeholder="Enter complete address">
+                                                <input type="text" name="address" id="address" class="form-control"" placeholder="Enter complete address" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="mobileNum" class="form-control-label">Mobile Number</label>
-                                                <input type="text" name="mobileNum" id="mobileNum"  class="form-control" placeholder="Enter valid mobile number">
+                                                <input type="text" name="mobileNum" id="mobileNum"  class="form-control" placeholder="Enter valid mobile number" required>
                                             </div>                                            
-                                            <div class="form-actions form-group">
-                                                <input type="submit" name="create" class="btn btn-secondary btn-sm" value="Submit"/>
+                                            <div class="form-actions form-group" style="display:flex; justify-content:end;">
+                                                <input type="submit" name="create" class="btn btn-dark btn-sm" value="Submit"/>
                                                 <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>"/>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
                             <!-- END CUSTOMER PROFILE -->
                         </div>
                     </div>       

@@ -4,7 +4,7 @@
     $user = "root";
     $password = "";
     $database = "hiraya";
-    $port = 3307;
+    $port = 3306;
 
     // Function to open a connection to MySQl server
     $connection = mysqli_connect($host, $user, $password, $database, $port);
